@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toman Group - VIP ID Card</title>
+<style>
+  body {
+    background-color: #1a1a1a;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+  }
+  .card {
+    width: 320px;
+    height: 500px;
+    background-color: #0a0a0a;
+    border: 2px solid #333;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .snake-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #ffd700;
+    object-fit: cover;
+    margin-bottom: 5px;
+  }
+  .group-title {
+    color: #ffd700;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin: 5px 0 20px 0;
+    text-transform: uppercase;
+  }
+  .profile-pic {
+    width: 130px;
+    height: 140px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #444;
+    margin-bottom: 25px;
+  }
+  .info-container {
+    width: 100%;
+    text-align: center;
+  }
+  /* कलरफुल और सिंगल लाइन टेक्स्ट के लिए सेटिंग्स */
+  .colorful-text {
+    font-size: 12px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #00f2fe, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 10px 0;
+    white-space: nowrap; /* एक ही लाइन में रखने के लिए */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* QR कोड वाले बैक कार्ड के लिए */
+  .qr-code {
+    width: 160px;
+    height: 160px;
+    margin-top: 100px;
+    border-radius: 8px;
+    background-color: white; /* QR कोड साफ दिखने के लिए */
+    padding: 10px;
+  }
+  .scan-text {
+    margin-top: 40px;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- कार्ड का फ्रंट (आगे का हिस्सा) -->
+  <div class="card">
+    <!-- अपनी स्नेक वाली फोटो का नाम यहाँ डालें -->
+    <img src="snake_logo.jpg" alt="Snake Logo" class="snake-logo">
+    <div class="group-title">TOMAN GROUP</div>
+    
+    <!-- आपकी भेजी गई फोटो -->
+    <img src="1000023156.jpg" alt="Ishan Kumar Gupta" class="profile-pic">
+    
+    <div class="info-container">
+      <div class="colorful-text">Name: Ishan Kumar Gupta | नाम: इशान कुमार गुप्ता</div>
+      <div class="colorful-text">Position: Vice President | पद: वाइस प्रेसिडेंट</div>
+      <div class="colorful-text">ID No: 743 005 3603 | आईडी नं: 743 005 3603</div>
+    </div>
+  </div>
+
+  <!-- कार्ड का बैक (पीछे का हिस्सा) -->
+  <div class="card">
+    <!-- अपने QR कोड की इमेज का नाम यहाँ डालें -->
+    <img src="your_qr_code.png" alt="QR Code" class="qr-code">
+    
+    <div class="colorful-text scan-text">Scan for Authentication | प्रमाणीकरण के लिए स्कैन करें</div>
+  </div>
+
+</body>
+</html>
