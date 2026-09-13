@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOMAN GANG - SECURE PORTAL</title>
+<style>
+  body { background-color: #0a0a0a; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin: 0; padding: 20px; }
+  .container { max-width: 500px; margin: 20px auto; background: #151515; padding: 30px 20px; border: 2px solid #d4af37; border-radius: 10px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+  h1 { color: #d4af37; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; }
+  h2 { color: #ff3333; font-size: 14px; margin-top: 0; margin-bottom: 25px; letter-spacing: 1px; }
+  .input-group { margin: 20px 0; display: flex; flex-direction: column; align-items: center; }
+  input { background: #050505; border: 1px solid #d4af37; color: #fff; padding: 12px; width: 90%; font-size: 16px; text-align: center; margin-bottom: 15px; border-radius: 5px; outline: none; }
+  input:focus { box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
+  button { background: #d4af37; color: #000; border: none; padding: 12px 20px; font-size: 15px; font-weight: bold; cursor: pointer; margin: 8px; width: 95%; text-transform: uppercase; border-radius: 5px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+  button:hover { background: #e5c158; transform: translateY(-2px); }
+  button.view-btn { background: #222; color: #aaa; border: 1px solid #444; }
+  button.view-btn:hover { background: #333; color: #fff; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+  th, td { border: 1px solid #333; padding: 12px 8px; text-align: center; }
+  th { background: #1a1a1a; color: #d4af37; font-weight: bold; }
+  tr:nth-child(even) { background-color: #111; }
+  .hidden { display: none; }
+  .admin-controls { margin-top: 25px; padding-top: 25px; border-top: 1px dashed #444; }
+  .admin-controls h3 { color: #ff3333; margin-bottom: 15px; font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="container" id="login-screen">
+  <h1>TOMAN GANG</h1>
+  <h2>SECURE HQ PORTAL</h2>
+  <p style="color:#aaa; font-size: 13px; margin-bottom: 20px;">ऑथेंटिकेशन आवश्यक (Authentication Required)</p>
+  <div class="input-group">
+    <input type="password" id="passcode" placeholder="Enter Password">
+    <button onclick="login()">ENTER PORTAL (लॉगिन करें)</button>
+    <button class="view-btn" onclick="viewOnly()">WITHOUT PASSWORD (सिर्फ देखें)</button>
+  </div>
+  <p id="error-msg" style="color: #ff3333; font-size: 14px; font-weight: bold; display: none;">❌ Incorrect Password!</p>
+</div>
+
+<div class="container hidden" id="app-screen">
+  <h1>TOMAN ROSTER</h1>
+  <h2 id="mode-title"></h2>
+  
+  <table id="roster-table">
+    <thead>
+      <tr>
+        <th>Member Name (नाम)</th>
+        <th>Deeds / Marks (काम)</th>
+      </tr>
+    </thead>
+    <tbody id="roster-body">
+    </tbody>
+  </table>
+
+  <div class="admin-controls hidden" id="admin-controls">
+    <h3>[ ADMIN PANEL - UPDATE RECORD ]</h3>
+    <input type="text" id="new-name" placeholder="Member Name (मेंबर का नाम)">
+    <input type="text" id="new-mark" placeholder="Deeds / Marks (मार्क्स या काम की डिटेल)">
+    <button onclick="addRecord()">UPDATE / ADD RECORD (अपडेट करें)</button>
+  </div>
+  
+  <br><br>
+  <button class="view-btn" onclick="logout()" style="width: auto; padding: 10px 30px;">⬅ LOGOUT & LOCK</button>
+</div>
+
+<script>
+  let defaultData = [
+    { name: "Ishan Kumar Gupta (VP)", marks: "Supreme Lead / Excellent" },
+    { name: "President", marks: "Supreme" }
+  ];
+  
+  let gangData = JSON.parse(localStorage.getItem('tomanHQ_Data')) || defaultData;
+  let isAdmin = false;
+
+  function login() {
+    let pwd = document.getElementById('passcode').value.toLowerCase().trim();
+    if(pwd === 'toman dark') {
+      isAdmin = true;
+      document.getElementById('passcode').value = '';
+      document.getElementById('error-msg').style.display = 'none';
+      showApp("ADMIN MODE (EDIT ACCESS)");
+    } else {
+      document.getElementById('error-msg').style.display = 'block';
+    }
+  }
+
+  function viewOnly() {
+    isAdmin = false;
+    document.getElementById('error-msg').style.display = 'none';
+    showApp("VIEWER MODE (READ ONLY)");
+  }
+
+  function showApp(title) {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('app-screen').classList.remove('hidden');
+    document.getElementById('mode-title').innerText = title;
+    
+    if(isAdmin) {
+      document.getElementById('admin-controls').classList.remove('hidden');
+      document.getElementById('mode-title').style.color = '#00ff88'; 
+    } else {
+      document.getElementById('admin-controls').classList.add('hidden');
+      document.getElementById('mode-title').style.color = '#aaa'; 
+    }
+    renderTable();
+  }
+
+  function renderTable() {
+    let tbody = document.getElementById('roster-body');
+    tbody.innerHTML = '';
+    gangData.forEach(member => {
+      tbody.innerHTML += `<tr><td><strong>${member.name}</strong></td><td style="color:#d4af37;">${member.marks}</td></tr>`;
+    });
+  }
+
+  function addRecord() {
+    let name = document.getElementById('new-name').value.trim();
+    let mark = document.getElementById('new-mark').value.trim();
+    if(name && mark) {
+      let index = gangData.findIndex(m => m.name.toLowerCase() === name.toLowerCase());
+      if(index >= 0) {
+         gangData[index].marks = mark;
+      } else {
+         gangData.push({ name: name, marks: mark });
+      }
+      localStorage.setItem('tomanHQ_Data', JSON.stringify(gangData));
+      document.getElementById('new-name').value = '';
+      document.getElementById('new-mark').value = '';
+      renderTable();
+    } else {
+      alert("Please enter both Name and Marks. (नाम और मार्क्स दोनों डालें)");
+    }
+  }
+
+  function logout() {
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('app-screen').classList.add('hidden');
+    document.getElementById('passcode').value = '';
+    isAdmin = false;
+  }
+</script>
+</body>
+</html>
