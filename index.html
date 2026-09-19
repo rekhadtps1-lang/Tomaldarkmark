@@ -3,142 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TOMAN GANG - SECURE PORTAL</title>
+<title>TOMAN ROSTER - COMMAND SYSTEM</title>
 <style>
-  body { background-color: #0a0a0a; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin: 0; padding: 20px; }
-  .container { max-width: 500px; margin: 20px auto; background: #151515; padding: 30px 20px; border: 2px solid #d4af37; border-radius: 10px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
-  h1 { color: #d4af37; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; }
-  h2 { color: #ff3333; font-size: 14px; margin-top: 0; margin-bottom: 25px; letter-spacing: 1px; }
-  .input-group { margin: 20px 0; display: flex; flex-direction: column; align-items: center; }
-  input { background: #050505; border: 1px solid #d4af37; color: #fff; padding: 12px; width: 90%; font-size: 16px; text-align: center; margin-bottom: 15px; border-radius: 5px; outline: none; }
-  input:focus { box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
-  button { background: #d4af37; color: #000; border: none; padding: 12px 20px; font-size: 15px; font-weight: bold; cursor: pointer; margin: 8px; width: 95%; text-transform: uppercase; border-radius: 5px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-  button:hover { background: #e5c158; transform: translateY(-2px); }
-  button.view-btn { background: #222; color: #aaa; border: 1px solid #444; }
-  button.view-btn:hover { background: #333; color: #fff; }
-  table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-  th, td { border: 1px solid #333; padding: 12px 8px; text-align: center; }
-  th { background: #1a1a1a; color: #d4af37; font-weight: bold; }
-  tr:nth-child(even) { background-color: #111; }
-  .hidden { display: none; }
-  .admin-controls { margin-top: 25px; padding-top: 25px; border-top: 1px dashed #444; }
-  .admin-controls h3 { color: #ff3333; margin-bottom: 15px; font-size: 16px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+  
+  /* नया बैकग्राउंड इमेज और डार्क ओवरले */
+  body { 
+    background-image: linear-gradient(rgba(0, 5, 15, 0.7), rgba(0, 10, 20, 0.85)), url('1000054293.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff; 
+    padding: 15px; 
+    min-height: 100vh; 
+  }
+  
+  .container { max-width: 550px; margin: 0 auto; text-align: center; }
+  
+  /* नियॉन ब्लू टाइटल (इमेज से मैच करता हुआ) */
+  .title { font-size: 26px; font-weight: 900; color: #00f3ff; letter-spacing: 4px; margin-bottom: 2px; text-shadow: 0 0 15px rgba(0, 243, 255, 0.8); }
+  .sub-title { font-size: 11px; color: #a0e8ff; letter-spacing: 2px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+
+  /* ट्रांसपेरेंट कार्ड टेबल */
+  .card-table { background: rgba(10, 15, 25, 0.85); border: 2px solid #00f3ff; border-radius: 12px; overflow: hidden; box-shadow: 0 0 30px rgba(0, 243, 255, 0.3); margin-bottom: 25px; backdrop-filter: blur(4px); }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: linear-gradient(90deg, #001a33, #000b1a); color: #00f3ff; padding: 14px 8px; font-size: 12px; border-bottom: 1px solid #00f3ff; text-transform: uppercase; letter-spacing: 1px; }
+  td { padding: 14px 8px; font-size: 13px; border-bottom: 1px solid #223; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+
+  .name-col { color: #fff; font-weight: bold; font-size: 14px; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+  .deed-badge { display: inline-block; background: rgba(0, 243, 255, 0.1); color: #00f3ff; border: 1px solid #00f3ff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; box-shadow: 0 0 8px rgba(0, 243, 255, 0.2); }
+
+  /* एक्शन बटन्स */
+  .action-btns { display: flex; gap: 8px; justify-content: center; }
+  .btn-action { padding: 6px 10px; border: none; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+  .btn-edit { background: #00f3ff; color: #000; box-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
+  .btn-del { background: #ff3366; color: #fff; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4); }
+
+  /* एडमिन पैनल */
+  .admin-box { background: rgba(0, 0, 0, 0.7); border: 1px solid #00f3ff; border-radius: 10px; padding: 15px; margin-top: 15px; box-shadow: 0 0 20px rgba(0, 243, 255, 0.2); backdrop-filter: blur(5px); }
+  .admin-header { font-size: 14px; color: #00f3ff; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); }
+  
+  input { width: 100%; padding: 12px; margin-bottom: 12px; background: rgba(20, 25, 35, 0.9); border: 1px solid #00f3ff; border-radius: 6px; color: #fff; font-size: 14px; }
+  input:focus { outline: none; box-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+
+  .btn-submit { width: 100%; padding: 12px; background: linear-gradient(90deg, #00f3ff, #0088ff); border: none; border-radius: 6px; color: #000; font-weight: 900; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0, 243, 255, 0.5); }
+  .btn-lock { background: rgba(0,0,0,0.5); border: 1px solid #00f3ff; color: #00f3ff; font-size: 12px; padding: 8px 15px; border-radius: 4px; margin-top: 15px; cursor: pointer; font-weight: bold; }
 </style>
 </head>
 <body>
-<div class="container" id="login-screen">
-  <h1>TOMAN GANG</h1>
-  <h2>SECURE HQ PORTAL</h2>
-  <p style="color:#aaa; font-size: 13px; margin-bottom: 20px;">ऑथेंटिकेशन आवश्यक (Authentication Required)</p>
-  <div class="input-group">
-    <input type="password" id="passcode" placeholder="Enter Password">
-    <button onclick="login()">ENTER PORTAL (लॉगिन करें)</button>
-    <button class="view-btn" onclick="viewOnly()">WITHOUT PASSWORD (सिर्फ देखें)</button>
-  </div>
-  <p id="error-msg" style="color: #ff3333; font-size: 14px; font-weight: bold; display: none;">❌ Incorrect Password!</p>
-</div>
 
-<div class="container hidden" id="app-screen">
-  <h1>TOMAN ROSTER</h1>
-  <h2 id="mode-title"></h2>
-  
-  <table id="roster-table">
-    <thead>
-      <tr>
-        <th>Member Name (नाम)</th>
-        <th>Deeds / Marks (काम)</th>
-      </tr>
-    </thead>
-    <tbody id="roster-body">
-    </tbody>
-  </table>
+<div class="container">
+  <div class="title">TOMAN GANG</div>
+  <div class="sub-title">HQ REGISTRY & COMMAND PANEL</div>
 
-  <div class="admin-controls hidden" id="admin-controls">
-    <h3>[ ADMIN PANEL - UPDATE RECORD ]</h3>
-    <input type="text" id="new-name" placeholder="Member Name (मेंबर का नाम)">
-    <input type="text" id="new-mark" placeholder="Deeds / Marks (मार्क्स या काम की डिटेल)">
-    <button onclick="addRecord()">UPDATE / ADD RECORD (अपडेट करें)</button>
+  <div class="card-table">
+    <table>
+      <thead>
+        <tr>
+          <th>मेंबर नाम (Name)</th>
+          <th>पद व कार्य (Role / Deeds)</th>
+          <th id="actHeader" style="display:none;">एक्शन</th>
+        </tr>
+      </thead>
+      <tbody id="memberList">
+        <!-- Records load dynamically -->
+      </tbody>
+    </table>
   </div>
-  
-  <br><br>
-  <button class="view-btn" onclick="logout()" style="width: auto; padding: 10px 30px;">⬅ LOGOUT & LOCK</button>
+
+  <div id="loginArea">
+    <button class="btn-lock" onclick="promptLogin()">🔒 ADMIN LOGIN</button>
+  </div>
+
+  <div id="adminArea" class="admin-box" style="display:none;">
+    <div class="admin-header">⚡ ADMIN PANEL - EDIT RECORDS ⚡</div>
+    <input type="hidden" id="editIndex" value="-1">
+    <input type="text" id="mName" placeholder="मेंबर का नाम (Member Name)">
+    <input type="text" id="mDeeds" placeholder="पद या काम (Role / Performance)">
+    <button class="btn-submit" id="saveBtn" onclick="saveRecord()">UPDATE / ADD RECORD</button>
+    <br>
+    <button class="btn-lock" onclick="logoutAdmin()" style="border-color: #ff3366; color: #ff3366;">🔓 LOGOUT ADMIN</button>
+  </div>
 </div>
 
 <script>
   let defaultData = [
-    { name: "Ishan Kumar Gupta (VP)", marks: "Supreme Lead / Excellent" },
-    { name: "President", marks: "Supreme" }
+    { name: "Ishan Kumar Gupta", deeds: "Vice President / Supreme Active" },
+    { name: "Anshu", deeds: "President / Commander" }
   ];
-  
-  let gangData = JSON.parse(localStorage.getItem('tomanHQ_Data')) || defaultData;
+
+  let members = JSON.parse(localStorage.getItem("toman_records")) || defaultData;
   let isAdmin = false;
 
-  function login() {
-    let pwd = document.getElementById('passcode').value.toLowerCase().trim();
-    if(pwd === 'toman dark') {
+  function renderTable() {
+    const tbody = document.getElementById("memberList");
+    tbody.innerHTML = "";
+    members.forEach((m, index) => {
+      let row = `<tr>
+        <td class="name-col">${m.name}</td>
+        <td><span class="deed-badge">${m.deeds}</span></td>
+        ${isAdmin ? `<td>
+          <div class="action-btns">
+            <button class="btn-action btn-edit" onclick="startEdit(${index})">✏️</button>
+            <button class="btn-action btn-del" onclick="deleteMember(${index})">🗑️</button>
+          </div>
+        </td>` : ''}
+      </tr>`;
+      tbody.innerHTML += row;
+    });
+    document.getElementById("actHeader").style.display = isAdmin ? "" : "none";
+  }
+
+  function promptLogin() {
+    let pwd = prompt("एडमिन पासवर्ड दर्ज करें:");
+    if (pwd === "toman" || pwd === "1234") { 
       isAdmin = true;
-      document.getElementById('passcode').value = '';
-      document.getElementById('error-msg').style.display = 'none';
-      showApp("ADMIN MODE (EDIT ACCESS)");
+      document.getElementById("adminArea").style.display = "block";
+      document.getElementById("loginArea").style.display = "none";
+      renderTable();
     } else {
-      document.getElementById('error-msg').style.display = 'block';
+      alert("गलत पासवर्ड! एक्सेस डिनाइड।");
     }
   }
 
-  function viewOnly() {
+  function logoutAdmin() {
     isAdmin = false;
-    document.getElementById('error-msg').style.display = 'none';
-    showApp("VIEWER MODE (READ ONLY)");
-  }
-
-  function showApp(title) {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('app-screen').classList.remove('hidden');
-    document.getElementById('mode-title').innerText = title;
-    
-    if(isAdmin) {
-      document.getElementById('admin-controls').classList.remove('hidden');
-      document.getElementById('mode-title').style.color = '#00ff88'; 
-    } else {
-      document.getElementById('admin-controls').classList.add('hidden');
-      document.getElementById('mode-title').style.color = '#aaa'; 
-    }
+    document.getElementById("adminArea").style.display = "none";
+    document.getElementById("loginArea").style.display = "block";
+    resetForm();
     renderTable();
   }
 
-  function renderTable() {
-    let tbody = document.getElementById('roster-body');
-    tbody.innerHTML = '';
-    gangData.forEach(member => {
-      tbody.innerHTML += `<tr><td><strong>${member.name}</strong></td><td style="color:#d4af37;">${member.marks}</td></tr>`;
-    });
+  function saveRecord() {
+    let name = document.getElementById("mName").value.trim();
+    let deeds = document.getElementById("mDeeds").value.trim();
+    let editIdx = parseInt(document.getElementById("editIndex").value);
+
+    if (!name || !deeds) {
+      alert("कृपया नाम और काम दोनों भरें!");
+      return;
+    }
+
+    // अगर हम किसी को एडिट कर रहे हैं, तो उसका पुराना डेटा इस नए डेटा से बदल जाएगा
+    if (editIdx > -1) {
+      members[editIdx] = { name, deeds };
+    } else {
+      members.push({ name, deeds });
+    }
+
+    localStorage.setItem("toman_records", JSON.stringify(members));
+    resetForm();
+    renderTable();
   }
 
-  function addRecord() {
-    let name = document.getElementById('new-name').value.trim();
-    let mark = document.getElementById('new-mark').value.trim();
-    if(name && mark) {
-      let index = gangData.findIndex(m => m.name.toLowerCase() === name.toLowerCase());
-      if(index >= 0) {
-         gangData[index].marks = mark;
-      } else {
-         gangData.push({ name: name, marks: mark });
-      }
-      localStorage.setItem('tomanHQ_Data', JSON.stringify(gangData));
-      document.getElementById('new-name').value = '';
-      document.getElementById('new-mark').value = '';
+  function startEdit(index) {
+    document.getElementById("editIndex").value = index;
+    document.getElementById("mName").value = members[index].name;
+    document.getElementById("mDeeds").value = members[index].deeds;
+    document.getElementById("saveBtn").innerText = "SAVE CHANGES (सेव करें)";
+  }
+
+  function deleteMember(index) {
+    if (confirm("क्या आप सच में इस सदस्य को हटाना चाहते हैं?")) {
+      members.splice(index, 1);
+      localStorage.setItem("toman_records", JSON.stringify(members));
       renderTable();
-    } else {
-      alert("Please enter both Name and Marks. (नाम और मार्क्स दोनों डालें)");
     }
   }
 
-  function logout() {
-    document.getElementById('login-screen').classList.remove('hidden');
-    document.getElementById('app-screen').classList.add('hidden');
-    document.getElementById('passcode').value = '';
-    isAdmin = false;
+  function resetForm() {
+    document.getElementById("editIndex").value = "-1";
+    document.getElementById("mName").value = "";
+    document.getElementById("mDeeds").value = "";
+    document.getElementById("saveBtn").innerText = "UPDATE / ADD RECORD";
   }
+
+  renderTable();
 </script>
+
 </body>
 </html>
